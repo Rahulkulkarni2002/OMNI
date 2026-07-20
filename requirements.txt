@@ -4,3 +4,5 @@ pandas
 polars
 python-dotenv
 lmxl
+sentence-transformers
+psycopg2-binary

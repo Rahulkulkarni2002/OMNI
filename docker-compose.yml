@@ -1,0 +1,15 @@
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    container_name: omni_db
+    environment:
+      POSTGRES_USER: omni
+      POSTGRES_PASSWORD: omni_local_dev
+      POSTGRES_DB: omni
+    ports:
+      - "5432:5432"
+    volumes:
+      - omni_pgdata:/var/lib/postgresql/data
+
+volumes:
+  omni_pgdata:

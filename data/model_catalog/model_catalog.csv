@@ -1,0 +1,9 @@
+model_name,required_gpu,min_vram_gb,supported_precision,deployment_type
+Llama 3 70B,H100,80,FP16/FP8,Model-Specific
+Llama 3 8B,A100,24,FP16,Model-Specific
+Mistral 7B,A10G,16,FP16,Model-Specific
+Mixtral 8x7B,A100,80,FP16,Model-Specific
+Nemotron 3 Ultra 550B,H100,320,FP8,Day 0
+Llama 3.1 405B,H100,640,FP8,Model-Specific
+Gemma 7B,A10G,16,FP16,Model-Specific
+Phi-3 Mini,L4,8,FP16,Model-Specific
