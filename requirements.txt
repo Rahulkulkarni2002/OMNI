@@ -6,3 +6,6 @@ python-dotenv
 lmxl
 sentence-transformers
 psycopg2-binary
+fastapi
+uvicorn
+anthropic
