@@ -9,7 +9,10 @@ from retrieve import hybrid_search
 from tools import query_model_catalog as _query_model_catalog
 
 load_dotenv()
-client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+client = genai.Client(
+    api_key=os.getenv("GEMINI_API_KEY"),
+    http_options=types.HttpOptions(timeout=20000),  # 20 seconds, in milliseconds
+)
 DATABASE_URL = os.getenv("DATABASE_URL")
 
 app = FastAPI()
