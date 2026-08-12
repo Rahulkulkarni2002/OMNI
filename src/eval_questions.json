@@ -1,0 +1,19 @@
+[
+  {"id": 1, "question": "How much VRAM does Llama 3 70B need?", "category": "catalog"},
+  {"id": 2, "question": "Which GPU does Mixtral 8x7B require?", "category": "catalog"},
+  {"id": 3, "question": "What precision does Nemotron 3 Ultra 550B support?", "category": "catalog"},
+  {"id": 4, "question": "Which models require an H100 GPU?", "category": "catalog"},
+  {"id": 5, "question": "How many GPUs does Llama 3.1 405B require to deploy?", "category": "catalog"},
+
+  {"id": 6, "question": "What is the difference between NIM Day 0 and NIM Certified?", "category": "docs"},
+  {"id": 7, "question": "What are the system prerequisites for deploying NIM?", "category": "docs"},
+  {"id": 8, "question": "How do I deploy NIM on Run:ai?", "category": "docs"},
+  {"id": 9, "question": "What causes GPU out-of-memory errors with NIM?", "category": "docs"},
+  {"id": 10, "question": "What is a NIM model profile?", "category": "docs"},
+
+  {"id": 11, "question": "Which models need an H100, and what deployment steps does NIM require for them?", "category": "compound"},
+  {"id": 12, "question": "What GPU does Llama 3 70B need, and how do I deploy it with Docker?", "category": "compound"},
+  {"id": 13, "question": "Which models use FP8 precision, and what does that mean for deployment?", "category": "compound"},
+  {"id": 14, "question": "What are the VRAM requirements for the largest model in the catalog, and what's the recommended deployment method for it?", "category": "compound"},
+  {"id": 15, "question": "Is there a model that doesn't need an H100, and what's the simplest way to deploy it?", "category": "compound"}
+]
