@@ -1,147 +1,232 @@
 id,category,question,answer,agent_ok,faithfulness
-1,catalog,How much VRAM does Llama 3 70B need?,"To run Llama 3 70B using NVIDIA NIM, it requires 80GB of VRAM and an H100 GPU, using either FP16 or FP8 precision.",True,0.5
-2,catalog,Which GPU does Mixtral 8x7B require?,"To run Mixtral 8x7B, you require an A100 GPU with at least 80GB of VRAM, using FP16 precision.",True,1.0
-3,catalog,What precision does Nemotron 3 Ultra 550B support?,Nemotron 3 Ultra 550B supports FP8 precision.,True,1.0
+1,catalog,How much VRAM does Llama 3 70B need?,Llama 3 70B requires 80GB of VRAM and typically runs at FP16 or FP8 precision. It is designed for deployment on H100 GPUs.,True,1.0
+2,catalog,Which GPU does Mixtral 8x7B require?,Mixtral 8x7B requires an A100 GPU with 80GB of VRAM and uses FP16 precision.,True,1.0
+3,catalog,What precision does Nemotron 3 Ultra 550B support?,"The `nemotron-3-ultra-550b-a55b` NIM supports the following precision configurations:
+
+*   **BF16**: Supported via the `vllm-bf16-tp8-pp1` profile.
+*   **NVFP4**: Supported via the `vllm-nvfp4-tp2-pp1`, `vllm-nvfp4-tp4-pp1`, and `vllm-nvfp4-tp8-pp1` profiles.
+
+**Notes:**
+*   The minimum deployment requires two GPUs.
+*   FP8 profiles were not released for this model because the NVFP4 profiles are verified to work on all tested Hopper-architecture GPUs (such as H100 and H200) and provide better performance.",True,1.0
 4,catalog,Which models require an H100 GPU?,"The following models require an H100 GPU:
 
-*   **Llama 3 70B**: Requires 80GB VRAM, FP16/FP8 precision, and Model-Specific deployment.
-*   **Nemotron 3 Ultra 550B**: Requires 320GB VRAM, FP8 precision, and Day 0 deployment.
-*   **Llama 3.1 405B**: Requires 640GB VRAM, FP8 precision, and Model-Specific deployment.",True,1.0
-5,catalog,How many GPUs does Llama 3.1 405B require to deploy?,"To deploy the Llama 3.1 405B model, it requires 640GB of VRAM using FP8 precision on H100 GPUs. The number of GPUs required depends on the specific H100 configuration, but you must ensure your deployment environment provides at least 640GB of VRAM.",True,1.0
-6,docs,What is the difference between NIM Day 0 and NIM Certified?,,False,
-7,docs,What are the system prerequisites for deploying NIM?,"To deploy an NVIDIA NIM container, your environment must meet the following general prerequisites:
+*   **Llama 3 70B:** Requires 80GB VRAM, FP16/FP8 precision, and uses a Model-Specific deployment.
+*   **Nemotron 3 Ultra 550B:** Requires 320GB VRAM, FP8 precision, and uses a Day 0 deployment.
+*   **Llama 3.1 405B:** Requires 640GB VRAM, FP8 precision, and uses a Model-Specific deployment.",True,1.0
+5,catalog,How many GPUs does Llama 3.1 405B require to deploy?,"To deploy Llama 3.1 405B using NVIDIA NIM, it requires 640GB of VRAM and H100 GPUs.",True,0.5
+6,docs,What is the difference between NIM Day 0 and NIM Certified?,"NVIDIA offers inference microservices under two main categories: **NIM** and **NIM Certified**. The key differences relate to their intended use cases, hardware validation, support levels, and release cycles.
 
-### Software Requirements
-*   **Operating System:** Ubuntu 22.04 LTS or later is recommended.
-*   **Docker:** Docker Engine 24.0 or later.
-*   **NVIDIA Container Toolkit:** Version 1.14.0 or later (configured to use the NVIDIA runtime).
-*   **GPU Drivers:** NVIDIA GPU drivers version 580 or later.
-*   **CUDA SDK:** CUDA SDK 12.9 or later.
+### **NIM (Day 0)**
+*   **Purpose:** Prioritizes rapid access to newly available models.
+*   **Target Audience:** Developers and users who want to explore and experiment with the latest models quickly.
+*   **Availability:** Published within approximately 72 hours (up to three days) of upstream model availability.
+*   **Validation:** Validated to be functional on a small set of NVIDIA GPUs.
+*   **Support:** Available at no charge under applicable license terms. Support is provided through the community via NVIDIA Developer Forums; it is **not** covered by NVIDIA Enterprise support.
 
-### Hardware Requirements
-*   **CPU:** AMD64 or ARM64 architecture.
-*   **GPU:** Refer to the **Support Matrix for Certified NIMs** for specific model-to-GPU compatibility and verified hardware profiles.
-*   **Memory/VRAM:** Requirements vary significantly by model; always consult the specific requirements for your chosen model in the model catalog.
+### **NIM Certified**
+*   **Purpose:** Designed for enterprise production deployments that require stability, predictability, and compliance.
+*   **Target Audience:** Enterprise IT, regulated industries, system integrators, and independent software vendors (ISVs).
+*   **Hardware Validation:** Supports broad compatibility across the NVIDIA hardware installed base.
+*   **Support & Maintenance:** 
+    *   Includes predictable maintenance, CVE handling, and rolling inference stack updates.
+    *   Alignment with NVIDIA AI Enterprise branch rules (**Feature Branch** and **Production Branch**).
+    *   Provides enterprise-grade support via NVIDIA AI Enterprise (requires an active subscription).
 
-### Authentication & Access
-*   **NGC API Key:** Required for downloading NIM containers and models from the NVIDIA NGC registry.
-*   **Permissions:** You must ensure the Docker daemon is running and your user has appropriate permissions to execute Docker commands (or is part of the `docker` group).
+#### **Sub-categories of NIM Certified:**
+| Offering | Best For | Support |
+| :--- | :--- | :--- |
+| **Feature Branch (FB)** | Production deployments that prioritize newer capabilities and can adopt frequent updates. | Community support; Enterprise support requires an active NVIDIA AI Enterprise subscription. |
+| **Production Branch (PB)** | Mission-critical, security-sensitive, or regulated environments needing a stable, long-term baseline. | Requires an active NVIDIA AI Enterprise subscription for enterprise support. |
 
-### Important Considerations
-*   **Model-Specific Requirements:** Before starting, always check the **Support Matrix for Certified NIMs** for your specific model, as it will detail the exact GPU and VRAM profiles required for optimal performance.
-*   **Orchestration:** For Kubernetes deployments, ensure you have the necessary storage and networking infrastructure (e.g., ReadWriteMany storage for multi-node setups).
-*   **Validation:** While other Linux distributions may work, only Ubuntu 22.04+ is officially validated.
+In summary, use **NIM** for rapid early exploration and **NIM Certified** for production environments requiring high stability, security SLAs, and enterprise support.",True,1.0
+7,docs,What are the system prerequisites for deploying NIM?,"To deploy NVIDIA NIM, you must satisfy several hardware, software, and configuration requirements. Because these requirements can vary based on the specific model and deployment environment, you should always consult the official documentation for your target setup.
 
-For a specific model, please provide the name, and I can query the catalog for its exact hardware and VRAM requirements.",True,1.0
-8,docs,How do I deploy NIM on Run:ai?,"To deploy NVIDIA NIM for LLMs on Run:ai, follow these steps:
+### Core Prerequisites
+*   **Hardware and Support:** You must use supported hardware. Refer to the **[Support Matrix for NIMs](https://docs.nvidia.com/nim/)** to find validated hardware, deployment profiles, and GPU configurations for your specific model.
+*   **Software and Drivers:** NIMs are delivered as containers. You need a compatible environment, which includes:
+    *   An NVIDIA GPU with sufficient VRAM for your target model.
+    *   Compatible NVIDIA drivers.
+    *   A container runtime (such as Docker or Kubernetes/Helm).
+*   **Authentication:** You will generally require an **NGC API Key** to pull container images and download model artifacts from the NVIDIA NGC catalog.
+
+### How to Confirm Your Requirements
+1.  **Consult the Support Matrix:** The [Support Matrix for NIMs](https://docs.nvidia.com/nim/) is the primary source for identifying which GPU and software versions are required for a specific model.
+2.  **Review the Prerequisites Page:** The official [Prerequisites documentation](https://docs.nvidia.com/nim/) provides details on:
+    *   Software requirements.
+    *   Licensing information.
+    *   NGC API key setup.
+3.  **Specific Environment Guides:** If you are deploying in a specific environment (e.g., Kubernetes, AWS, Google Cloud, or Run:ai), use the relevant deployment guide in the NIM documentation, as these guides often list environment-specific prerequisites (such as PVC requirements for Kubernetes or project access for Run:ai).
+
+**If you have a specific model or GPU in mind:** Please provide the model name, and I can query the model catalog to provide the exact VRAM and GPU requirements for that model.",True,1.0
+8,docs,How do I deploy NIM on Run:ai?,"To deploy NVIDIA NIM on Run:ai, follow these steps:
 
 ### Prerequisites
-*   **Run:ai access:** Ensure you have access (SaaS or self-hosted) with GPU capacity for inference workloads.
-*   **Run:ai project:** Access to a project where you can create inference workloads.
-*   **NGC API Key:** Required for pulling NIM container images and downloading model artifacts.
+*   **Run:ai access:** You must have access to a Run:ai environment (SaaS or self-hosted) with sufficient GPU capacity for inference.
+*   **Project Access:** Ensure you have access to a Run:ai project where you can create inference workloads.
+*   **NGC API Key:** An NGC API key is required to pull NIM container images and download model artifacts.
 
 ### Deployment Steps
-In the Run:ai UI, follow this workflow:
+1.  **Create Workload:** In the Run:ai UI, create a new **inference workload**.
+2.  **Select NIM:** Choose **NVIDIA NIM** as the inference type.
+3.  **Configure Basics:** Set the workload name and required credentials.
+4.  **Assign Resources:** Set the required GPU count for your model. It is recommended to start with one GPU and scale up after verifying model loading and readiness.
+5.  **Customization (Optional):** Use advanced settings to specify a custom NIM image if necessary.
+6.  **Create:** Finalize the creation of the inference workload.
 
-1.  **Create a new inference workload.**
-2.  **Select NVIDIA NIM** as the inference type.
-3.  **Configure basic settings:** Set the workload name, credentials (for NGC), and the required GPU count for your model.
-    *   *Tip: Start with one GPU and scale after confirming successful model loading and readiness.*
-4.  **Optional:** Use advanced settings if you need to specify a custom NIM image.
-5.  **Create the inference workload.**
-
-### Optional: Enabling LoRA
+### Optional: Enable LoRA
 If you need to use LoRA adapters:
-
 1.  **Create a Data Source:** In the Run:ai UI, go to **Workload Manager > Assets > Data & Storage > Data Sources** and create a new PVC-backed data source.
-2.  **Populate the volume:** Place your LoRA adapter files in the volume using the required structure:
-    ```text
-    /loras/
-      adapter_name/
-        adapter_config.json
-        adapter_model.safetensors # or adapter_model.bin
-    ```
-3.  **Configure the NIM workload:**
-    *   Set the environment variable `NIM_PEFT_SOURCE` to `/loras`.
+2.  **Populate Data:** Ensure the volume contains LoRA adapter files in the following structure:
+    *   `/loras/adapter_name/adapter_config.json`
+    *   `/loras/adapter_name/adapter_model.safetensors` (or `.bin`)
+3.  **Configure Workload:** 
+    *   Set the runtime environment variable `NIM_PEFT_SOURCE` to `/loras`.
     *   Attach the Run:ai data source and mount it at `/loras`.
 
-### Verification
+### Verify Deployment
 *   Check the workload status in the Run:ai UI to ensure it is in a ""Ready"" state.
-*   Confirm the service is responding by calling the readiness endpoint: `GET /v1/health/ready`. A healthy deployment returns an HTTP 200 response.",True,1.0
-9,docs,What causes GPU out-of-memory errors with NIM?,,False,
-10,docs,What is a NIM model profile?,"A **NIM model profile** is a specific configuration or ""variant"" of a model that is optimized for particular hardware capabilities or deployment requirements within the NIM environment.
+*   Confirm the service is responding by calling the readiness endpoint: `GET /v1/health/ready`. A healthy deployment will return an HTTP 200 response.
+
+For additional guidance on Run:ai platform operations, refer to the [official NVIDIA Run:ai Documentation](https://docs.nvidia.com/runai/).",True,1.0
+9,docs,What causes GPU out-of-memory errors with NIM?,"GPU out-of-memory (OOM) errors in NIM occur when the total memory required by the model (weights, KV cache, activations, and overhead) exceeds the available VRAM on your GPU.
+
+These errors generally stem from one of the following categories:
+
+### 1. Insufficient VRAM for the Selected Model
+*   **Weight Mismatch:** The model weights alone may exceed the GPU capacity. This is often solved by choosing a more aggressively quantized profile (e.g., FP8 or MXFP4) or using a different Tensor Parallelism (TP) configuration to spread weights across more GPUs.
+*   **KV Cache Requirements:** The Key-Value (KV) cache size is determined by the `max_model_len` (context length). Models with very long native context lengths (e.g., 128K) require substantial memory. If the model weights take up most of your VRAM, there may not be enough room for the KV cache at the default context length.
+    *   **Resolution:** Reduce `--max-model-len` via CLI arguments to fit your workload within the available memory.
+
+### 2. Configuration Issues
+*   **`--gpu-memory-utilization`:** This parameter (defaulting to 0.9) controls the fraction of GPU memory budgeted for model operations. Setting this too high can lead to OOM errors because it leaves insufficient overhead for CUDA graph compilation, communication buffers, and other operations.
+*   **vGPU Environment Limitations:** In vGPU environments, the hypervisor reserves a portion of the frame buffer that is not visible to the NIM container. Setting memory utilization too high here can cause OOMs because the application is unaware of the hidden overhead.
+    *   **Resolution:** Start with a more conservative utilization value and increase it gradually.
+
+### 3. Memory Fragmentation
+*   Even if the total free memory appears sufficient, OOM errors can occur if the memory is fragmented. PyTorch requires **contiguous** memory blocks for certain operations. During model loading, temporary allocations can fragment the GPU address space, preventing the allocation of large, individual KV cache tensors.
+    *   **Resolution:** If you see errors mentioning ""reserved by PyTorch but unallocated,"" you can try setting the environment variable `PYTORCH_ALLOC_CONF=expandable_segments:True`.
+
+### Troubleshooting Steps
+*   **Check NIM Advisory Warnings:** NIM often logs a warning during startup if the estimated VRAM usage exceeds available memory. It will often suggest a reduced `--max-model-len` that would allow the model to fit.
+*   **Estimate Weight Memory:** Use the following formula to verify if your weights fit:
+    `weight_memory_per_gpu = total_parameters * bytes_per_parameter / TP`
+    *(e.g., FP16 = 2 bytes/param, FP8 = 1 byte/param)*
+*   **Consult the Support Matrix:** Ensure the model profile and GPU combination you are using are officially supported for your version of NIM. Some large models or specific configurations require specific hardware or memory settings (e.g., adjusting `NIM_KVCACHE_PERCENT` for specific LoRA combinations).",True,1.0
+10,docs,What is a NIM model profile?,"A NIM model profile represents a specific configuration or ""version"" of a model, optimized for deployment within the NIM environment. It typically defines how a model is executed, including parameters like tensor parallelism (TP), pipeline parallelism (PP), and support for specific features (such as LoRA).
 
 Key aspects of a NIM model profile include:
 
-*   **Variant Specification:** A single base model (e.g., Llama-3.1-8B) may have multiple profiles representing different configurations, such as varying levels of tensor parallelism (TP), pipeline parallelism (PP), or specialized features like LoRA support.
-*   **Hardware Mapping:** Profiles are designed to match the model to the available resources (like the amount of VRAM per GPU). When you list available profiles, you will often see notes like `[requires >=13 GB/gpu]`, which helps ensure the profile is compatible with your specific hardware.
-*   **Selection and Deployment:**
-    *   **Automatic Selection:** If you do not specify a profile, NIM can often perform automatic profile selection to choose the default compatible option for your environment.
-    *   **Manual Selection:** You can explicitly choose a specific profile by setting the `NIM_MODEL_PROFILE` environment variable to the unique hash ID of the profile. This is useful when you need to force a specific configuration (e.g., a specific tensor-parallel size).
-*   **Identification:** Profiles are identified by unique hash strings. You can view the profiles available for a specific model by using the `list-model-profiles` command within the NIM container:
-    ```bash
-    docker run --gpus=all \
-      -v ""$LOCAL_NIM_CACHE:/opt/nim/.cache"" \
-      -e NIM_MODEL_PATH=$MODEL \
-      ${NIM_LLM_IMAGE} list-model-profiles
-    ```
-*   **Download/Caching:** Model profiles are the units that the `download-to-cache` command processes. You can download all profiles for a model or just specific ones by referencing their profile names/hashes.",True,1.0
-11,compound,"Which models need an H100, and what deployment steps does NIM require for them?","The following models supported by NVIDIA NIM require an H100 GPU:
+*   **Identifiers:** Profiles are referenced by unique hashes (e.g., `c214460d2ad7a379660126062912d2aeecaa74a3ce14ab9966cd135de49a73f2`).
+*   **Performance Configurations:** A single model may have multiple profiles to accommodate different hardware resources. For example, you might see different profiles for `tp1` (tensor parallelism 1) versus `tp2` or `tp8`, depending on the memory requirements and the number of GPUs being used.
+*   **Deployment Control:** You can explicitly select a profile using the `NIM_MODEL_PROFILE` environment variable when starting a NIM container. This ensures the model runs with the intended configuration.
+*   **Discovery:** You can list available profiles for a given model (e.g., from Hugging Face) using the `list-model-profiles` command within the NIM container to see which are compatible with your system's hardware.
+*   **Caching & Storage:** Model profiles are downloaded and stored in the NIM cache (`/opt/nim/.cache`). You can download specific profiles to the cache for later use, which is particularly useful for air-gapped deployments.",True,1.0
+11,compound,"Which models need an H100, and what deployment steps does NIM require for them?","The following models specifically require NVIDIA H100 GPUs:
 
-*   **Llama 3 70B:** Requires 80GB VRAM, FP16/FP8 precision.
-*   **Nemotron 3 Ultra 550B:** Requires 320GB VRAM, FP8 precision.
-*   **Llama 3.1 405B:** Requires 640GB VRAM, FP8 precision.
+*   **Llama 3 70B:** Requires 80GB VRAM and FP16/FP8 precision.
+*   **Nemotron 3 Ultra 550B:** Requires 320GB VRAM and FP8 precision.
+*   **Llama 3.1 405B:** Requires 640GB VRAM and FP8 precision.
 
 ### NIM Deployment Steps
+NIM deployment generally follows these steps, though specific implementations vary based on the environment (e.g., Kubernetes/Helm, KServe, OpenShift, or Run:ai).
 
-NIM deployment typically follows a containerized approach using Kubernetes/Helm. General steps include:
+#### 1. Prerequisites & Credentials
+*   **API Key:** You must have an NGC API key to authenticate and pull container images.
+*   **Secrets:** Create Kubernetes secrets in your target namespace for the NGC registry (`ngc-secret`) and your NGC API key (`ngc-api`). If using gated Hugging Face models, a separate secret for your `HF_TOKEN` is also required.
 
-1.  **Prerequisites:**
-    *   A Kubernetes cluster (v1.26+) with GPU-capable nodes.
-    *   [NVIDIA GPU Operator](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/index.html) installed for GPU resource management.
-    *   An NGC API key for pulling container images and model artifacts.
-    *   Helm 3.0.0 or later.
-2.  **Infrastructure Setup:**
-    *   Create a dedicated Kubernetes namespace.
-    *   Create Kubernetes secrets to store your NGC API key (for image pulling and model access). Optionally, create a secret for Hugging Face tokens if using gated models.
-3.  **Deployment via Helm:**
-    *   Fetch and extract the NIM LLM Helm chart from the NGC catalog.
-    *   Prepare a `values.yaml` file to configure your specific deployment, including the NIM container image, model-specific settings, persistence for model caching, and resource limits (matching the GPU/VRAM requirements noted above).
-    *   Deploy the chart using `helm install` or `helm upgrade`.
-4.  **Verification:**
-    *   Confirm the service is reachable by checking the health endpoint (e.g., `curl -s ""http://${NIM_EXTERNAL_IP}:8000/v1/health/ready""`).
-    *   Send a test inference request to the `/v1/chat/completions` endpoint.
+#### 2. Environment Preparation
+*   **GPU Operator:** Ensure the NVIDIA GPU Operator is installed on your cluster.
+*   **Model Cache (Optional):** It is recommended to create a Persistent Volume Claim (PVC) to cache model artifacts. This avoids re-downloading models into ephemeral storage every time a pod restarts.
 
-Deployment details can vary based on your environment (e.g., standard Kubernetes, OpenShift, or Managed Services like Azure ML). For more complex setups, such as multi-node deployments, ensure the LeaderWorkerSet controller is installed in your cluster.",True,1.0
-12,compound,"What GPU does Llama 3 70B need, and how do I deploy it with Docker?",,False,
-13,compound,"Which models use FP8 precision, and what does that mean for deployment?","FP8 (8-bit floating point) is a precision format designed to optimize the performance and efficiency of deep learning models during inference.
+#### 3. Deployment
+Depending on your platform, choose one of the following methods:
 
-### What FP8 Means for Deployment
-Using FP8 precision in your deployment provides several key advantages:
+*   **Helm:**
+    1.  Fetch the NIM LLM Helm chart from NGC.
+    2.  Create a custom `values.yaml` file that specifies your model, image, and resource requirements.
+    3.  Run `helm install` to deploy the chart to your namespace.
+*   **KServe:**
+    1.  Define a `ClusterServingRuntime` and `InferenceService` manifest.
+    2.  Reference the model-specific NIM container image and mount the cache PVC within the pod specification.
+    3.  Apply the manifest using `kubectl apply`.
+*   **Run:ai:**
+    1.  Create an inference workload in the Run:ai UI.
+    2.  Select ""NVIDIA NIM"" as the type.
+    3.  Configure the required GPU count, credentials, and image settings through the UI.
 
-*   **Increased Throughput:** By reducing the bit-width of weights and activations from standard formats (like FP16 or BF16) to 8 bits, FP8 allows for higher computational density. This enables the model to process more tokens per second, significantly increasing inference throughput.
-*   **Reduced Memory Footprint:** FP8 models require less VRAM to store weights compared to 16-bit precision models. This can allow you to deploy larger models on the same hardware or use smaller, less expensive GPU instances for a given model size.
-*   **Lower Latency:** The reduced computational requirements often lead to lower latency per request, which is critical for real-time or interactive AI applications.
+#### 4. Verification
+*   **Service Endpoint:** Retrieve the external IP/service name for your deployment.
+*   **Health Check:** Verify readiness by curling the health endpoint:
+    `curl -s ""http://<NIM_EXTERNAL_IP>:8000/v1/health/ready""`
+*   **Inference Request:** Test the model by sending a standard chat completion request to the `/v1/chat/completions` endpoint.",True,1.0
+12,compound,"What GPU does Llama 3 70B need, and how do I deploy it with Docker?","Llama 3 70B requires an **H100 GPU** with at least **80GB of VRAM**.
 
-### Supported Models
-NVIDIA NIM provides optimized support for FP8 precision across many popular large language models. The support matrix indicates that models such as **Llama-3.3-70b-instruct**, **Llama-3.3-nemotron-super-49b-v1.5**, and **nemotron-3-nano** have certified deployment profiles that support FP8 precision.
+### Deploying with Docker
 
-You can verify if a specific NIM deployment profile supports FP8 by consulting the **Support Matrix for Certified NIMs**, which lists available precisions (like FP8, BF16, or NVFP4) for various model and tensor parallelism (TP) configurations. When deploying a NIM, you would typically select the profile that corresponds to your hardware and desired precision.",True,1.0
-14,compound,"What are the VRAM requirements for the largest model in the catalog, and what's the recommended deployment method for it?",,False,
-15,compound,"Is there a model that doesn't need an H100, and what's the simplest way to deploy it?","Several models supported by NVIDIA NIM do not require an H100 GPU. Based on current requirements, here are some options that work with lower-tier hardware:
+To deploy a NIM LLM container using Docker, follow these general steps:
 
-*   **Phi-3 Mini:** Requires an L4 GPU with 8GB VRAM.
-*   **Mistral 7B / Gemma 7B:** Require an A10G GPU with 16GB VRAM.
-*   **Llama 3 8B:** Requires an A100 GPU with 24GB VRAM.
+1.  **Prerequisites**: Ensure you have the NVIDIA Container Toolkit installed, which allows Docker to access your GPU.
+2.  **Authentication**: If required (for private/gated models), authenticate with the NVIDIA Container Registry:
+    ```bash
+    echo ""$NGC_API_KEY"" | docker login nvcr.io --username '$oauthtoken' --password-stdin
+    ```
+3.  **Pull the Image**: Pull the specific NIM container image for the model from the NGC registry.
+4.  **Run the Container**: Use the `docker run` command, ensuring you include the `--gpus all` flag to provide the container access to your GPU.
+
+For example, a typical execution command looks like this:
+```bash
+docker run -it --rm --gpus all \
+    -p 8000:8000 \
+    -e NGC_API_KEY=$NGC_API_KEY \
+    -v ""$LOCAL_NIM_CACHE"":/opt/nim/.cache \
+    <NIM_LLM_MODEL_SPECIFIC_IMAGE>
+```
+
+**Note:** The exact image tag and configuration will depend on the specific NIM version you are using. You should verify the model ID and version in the [NVIDIA NIM Support Matrix](https://docs.nvidia.com/nim/reference/support-matrix.html) to ensure you are pulling the correct image for Llama 3 70B.",True,1.0
+13,compound,"Which models use FP8 precision, and what does that mean for deployment?","NVIDIA NIM models support various precision formats to balance performance, memory usage, and accuracy. While your search did not return a specific list of *all* models using FP8, here is how FP8 precision functions and its implications for deployment:
+
+### What is FP8 Precision?
+FP8 (8-bit floating-point) is a low-precision data format that reduces the memory footprint and increases computation speed of AI models compared to higher-precision formats like FP16 or BF16. 
+*   **Performance:** By using smaller data types, hardware (specifically NVIDIA Tensor Cores on architectures like Hopper) can process more operations per clock cycle, leading to higher throughput.
+*   **Memory Efficiency:** FP8 uses significantly less memory than standard precision formats, which allows for either deploying larger models on the same hardware or fitting models onto GPUs with less VRAM.
+
+### What This Means for Deployment
+When deploying NIMs that support FP8, you should keep the following in mind:
+
+1.  **Hardware Requirements:** FP8 optimizations are typically hardware-dependent. They are generally supported on newer architectures, such as the **NVIDIA Hopper (e.g., H100, H200)** and **Blackwell** series. Before deploying, verify that your GPU architecture supports the specific kernels required for FP8.
+2.  **Profile Selection:** NIMs provide multiple ""profiles"" (configurations). When deploying, you must choose a profile that matches your hardware and the desired precision. Use tools like `list-model-profiles` to see the available options for your specific NIM container, which will detail the required VRAM, GPU count, and architecture for a given precision.
+3.  **Performance Trade-offs:** While FP8 generally offers superior performance and lower memory usage, it is designed to maintain high accuracy for inference. NVIDIA validates these configurations to ensure that the precision reduction does not negatively impact the model's output quality.
+4.  **Configuration:** You generally do not need to manually quantize the models yourself. NIMs are pre-packaged with these optimized configurations. Your primary task during deployment is to ensure your infrastructure matches the requirements listed in the model's profile metadata.
+
+**How to check specific requirements:**
+To find exact supported precisions for a model you are interested in:
+*   You can use the `list-model-profiles` command (provided within the NIM environment) to query the requirements for the specific model image you are using. This will provide the authoritative list of supported precisions (e.g., FP8, BF16, W4A16, NVFP4) and the corresponding hardware requirements for your specific deployment.",True,0.5
+14,compound,"What are the VRAM requirements for the largest model in the catalog, and what's the recommended deployment method for it?","The largest model in the catalog is the **Llama 3.1 405B**.
+
+### VRAM Requirements
+*   **VRAM:** 640 GB
+*   **Required GPU:** H100
+*   **Precision:** FP8
+
+### Deployment Method
+The recommended deployment method for this model is **Model-Specific deployment**. 
+
+NIM supports various deployment environments (such as local Docker, Kubernetes/Helm, or Amazon SageMaker) and offers flexible model storage options (including local filesystem storage, remote registries like NGC or Hugging Face, and object storage like S3). 
+
+For a large-scale model like the 405B, you would typically use a model-specific container image configured with the necessary environment variables to manage the high VRAM demands and resource requirements. You can manage the configuration via the `NIM_MODEL_PROFILE` environment variable or backend CLI arguments to optimize tensor parallelism (TP) and pipeline parallelism (PP) to fit the model across multiple GPUs.",True,1.0
+15,compound,"Is there a model that doesn't need an H100, and what's the simplest way to deploy it?","Yes, there are models that do not require an H100. For example, **Mistral 7B** and **Gemma 7B** can be deployed using an **A10G GPU** with 16GB of VRAM.
 
 ### Simplest Way to Deploy
-The ""simplest"" method depends on your infrastructure:
+The simplest way to get started with NIM depends on your environment:
 
-1.  **For Quick Experimentation:** You can test models directly at [build.nvidia.com](https://build.nvidia.com). This allows you to interact with the API and test model capabilities without needing to set up your own hardware.
-2.  **For Local/Self-Hosted Deployment:** The most straightforward way is using the **NIM container**.
-    *   **Prerequisites:** You must have the NVIDIA Container Toolkit installed, a supported GPU, and an NGC Personal API Key.
-    *   **Process:** After setting up your environment, you pull the specific NIM container image for your chosen model from the NGC registry and run it using the `docker run` command.
+1.  **For Exploration:**
+    The easiest way to get a feel for the API and model capabilities without any local hardware setup is to try a NIM API hosted at [build.nvidia.com](https://build.nvidia.com).
 
-For enterprise or production-level environments, you can also use the **NVIDIA NIM Operator** if you are working within Kubernetes, which helps manage the deployment lifecycle, scaling, and health monitoring automatically.
+2.  **For Local/Cloud Deployment:**
+    If you are deploying on your own infrastructure (such as a cloud instance or a local server), the standard approach is using the **NIM container**.
+    *   **Prerequisites:** Ensure you have the necessary GPU drivers, Docker, and an NVIDIA NGC API key.
+    *   **Quickstart:** You can pull the NIM container from the NGC registry and run it using standard Docker commands. Refer to the **""Quickstart""** section in the NIM documentation for the specific `docker run` command pattern, which involves mapping your local cache directory and providing your NGC API key as an environment variable to handle model downloads.
 
-For detailed, step-by-step instructions on pulling the container and running your first model, refer to the **""Quickstart""** section of the official NIM documentation.",True,1.0
+3.  **For Kubernetes Environments:**
+    If you are operating within Kubernetes, the **NVIDIA NIM Operator** is the recommended tool as it automates the lifecycle management, including persistent model caching and health monitoring, which significantly simplifies production-grade deployments.",True,1.0
