@@ -107,18 +107,24 @@ streamlit run app.py        # terminal 2: UI on :8501
 
 The Docker container stops when the machine sleeps; restart it with `docker start omni_db`.
 
-## Roadmap
+## Roadmap: 8-week plan, status and deviations
 
-- [x] Scraping and chunking pipeline
-- [x] pgvector store and hybrid retrieval
-- [x] FastAPI backend and Streamlit chat UI
-- [x] Tool calling with a hand-written ReAct loop
-- [x] Evaluation harness (faithfulness)
-- [ ] Knowledge-base audit and rebuild, then re-run evaluation
-- [ ] Retrieval-quality metrics and a larger question set
-- [ ] Hosted demo (Streamlit Community Cloud + hosted Postgres)
-- [ ] Dockerfiles, Docker Compose for the full stack, CI
-- [ ] Later: MCP server, charts, multiple LLM providers
+Omni follows an 8-week build plan. Status as of Nov 2026, including where I deliberately changed the plan:
+
+| Week | Topic | Status | What changed from the plan |
+|---|---|---|---|
+| 1 | Data engineering (scrape, clean, chunk) | Done, being re-run | Source is HTML docs, not PDFs. Page discovery is being switched from the sidebar to the docs' own page index to fix missing pages. |
+| 2 | Database and vector layer | Done | pgvector inside Postgres in Docker; 211 chunks in the current local snapshot. A rebuild is pending the audit. |
+| 3 | FastAPI backend and LLM | Done | Uses Gemini (free tier) instead of Claude. Single provider so far; multi-provider support is later. |
+| 4 | Hybrid RAG | Done | Semantic (pgvector) plus keyword (Postgres full-text), simple score merge. |
+| 5 | Tool calling and ReAct | Done | Explicit step-by-step loop with automatic function calling disabled. Found and fixed a routing bug. |
+| 6 | Frontend | Partial | Streamlit chat with reasoning steps and sources. No file upload and no Plotly charts yet. |
+| 7 | Evaluation | Done, being re-run | Custom Gemini-as-judge faithfulness (RAGAS would not install cleanly). 15 questions, 15/15 completion, 0.93 faithfulness; re-measuring after the knowledge-base fix. |
+| 8 | Deployment | Not started | Next: hosted Postgres with pgvector, Streamlit Community Cloud, Dockerfiles, Docker Compose for the full stack, CI. |
+
+**Next steps, in order:** knowledge-base audit and rebuild, re-run evaluation, then deployment.
+
+**Later, optional:** MCP server for the tools, charts, file upload, multiple LLM providers (including a local Ollama model), retrieval-quality metrics, and a larger evaluation set.
 
 ## License
 
