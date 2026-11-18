@@ -128,4 +128,9 @@ Omni follows an 8-week build plan. Status as of Nov 2026, including where I deli
 
 ## License
 
-MIT (see `LICENSE`).
+Copyright (c) 2026 Rahul Kulkarni. All rights reserved.
+
+This code is published for viewing and evaluation only (for example by
+recruiters and hiring managers). No permission is granted to copy, modify,
+distribute or use it, in whole or in part, without the author's written
+permission.
