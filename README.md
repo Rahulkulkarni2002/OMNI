@@ -1,6 +1,6 @@
 # Omni — NVIDIA NIM Documentation Assistant
 
-Omni answers questions about deploying NVIDIA NIM by combining two kinds of data in one agent: **unstructured documentation** (retrieval-augmented generation over the official NIM docs) and **structured data** (a SQL table of supported models, GPUs, VRAM and precision). A hand-written ReAct loop lets the LLM decide which tool to call, call both when needed, and ground its answer in what the tools return.
+Omni answers questions about deploying NVIDIA NIM by combining two kinds of data in one agent: **unstructured documentation** (retrieval-augmented generation over the official NIM docs) and **structured data** (a SQL table of supported models, GPUs, VRAM and precision). A custom ReAct loop lets the LLM decide which tool to call, call both when needed, and ground its answer in what the tools return.
 
 > **Status (Nov 2026): work in progress, runs locally.** Not deployed yet. A coverage audit of the knowledge base is under way; see [Known issues](#known-issues-and-in-progress).
 
